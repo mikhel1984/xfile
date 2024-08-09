@@ -1,2 +1,3 @@
 # xfile
-Exchange files between two computers
+
+Simple graphical tool for file exchange.
