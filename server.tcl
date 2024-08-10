@@ -44,13 +44,13 @@ proc send_file {} {
     set size [file size $env(full_name)]
     set fp [open $env(full_name)]
     fconfigure $fp -translation binary
-    set env(var_status) "Send file"
+    set env(var_status) "Sending ..."
     # send info
     puts $env(var_socket) [list $env(var_file) $size]
 
     # send data
     fcopy $fp $env(var_socket) -size $size
-    set env(var_status) "Done"
+    set env(var_status) "Sent"
     close $fp
   }
 }
@@ -61,7 +61,7 @@ proc file_receive {} {
 
   # read info
   if {$env(is_connected) && [gets $env(var_socket) line] > 0} {
-    set env(var_status) "Receive file"
+    set env(var_status) "Receiving ..."
     set name [lindex $line 0]
     set size [lindex $line 1]
     set env(var_file) $name
@@ -71,7 +71,7 @@ proc file_receive {} {
     fconfigure $fp -translation binary
     fcopy $env(var_socket) $fp -size $size
     close $fp  
-    set env(var_status) "Done"
+    set env(var_status) "Received"
   }   
 }
 

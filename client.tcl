@@ -1,5 +1,5 @@
 # settings
-set IP "127.0.0.1"
+set IP "127.0.0.1"  ;# server
 set PORT 34560
 
 # Window
@@ -8,7 +8,7 @@ wm title . "Client"
 label .file -textvariable env(var_file)
 label .status -textvariable env(var_status) -foreground "grey"
 
-ttk::entry .ip -textvariable env(ip_addres) -foreground "blue" -justify center
+ttk::entry .ip -textvariable env(new_addres) -foreground "blue" -justify center
 
 button .open -text "Choose" -width 10 -command open_file
 button .send -text "Send" -width 10 -command send_file
@@ -23,6 +23,7 @@ set env(var_status) "Waiting"
 set env(full_name) ""
 set env(is_connected) false
 set env(ip_addres) $IP
+set env(new_addres) $IP
 
 
 # Choose file
@@ -46,13 +47,13 @@ proc send_file {} {
     set size [file size $env(full_name)]
     set fp [open $env(full_name)]
     fconfigure $fp -translation binary
-    set env(var_status) "Send file"
+    set env(var_status) "Sending ..."
     # send info
     puts $env(var_socket) [list $env(var_file) $size]
 
     # send data
     fcopy $fp $env(var_socket) -size $size
-    set env(var_status) "Done"
+    set env(var_status) "Sent"
     close $fp
   }
 }
@@ -63,7 +64,7 @@ proc file_receive {} {
 
   # read info
   if {[gets $env(var_socket) line] > 0} {
-    set env(var_status) "Receive file"
+    set env(var_status) "Receiving ..."
     set name [lindex $line 0]
     set size [lindex $line 1]
     set env(var_file) $name
@@ -73,13 +74,19 @@ proc file_receive {} {
     fconfigure $fp -translation binary
     fcopy $env(var_socket) $fp -size $size
     close $fp  
-    set env(var_status) "Done"
+    set env(var_status) "Receive"
   }   
 }
 
 proc try_connection {port} {
   global env
 
+  # update if need
+  if { [llength [split $env(new_addres) .]] == 4 } {
+    set env(ip_addres) $env(new_addres)
+  }
+
+  # connect
   if { [catch {set channel [socket $env(ip_addres) $port]}] } {
     after 1000 [list try_connection $port]
   } else {
