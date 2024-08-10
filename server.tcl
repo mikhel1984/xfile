@@ -5,8 +5,8 @@ set PORT 34560
 wm title . "Server"
 
 label .file -textvariable env(var_file)
-label .status -textvariable env(var_status)
-label .addr -textvariable env(var_addres)
+label .status -textvariable env(var_status) -foreground "grey"
+label .addr -textvariable env(var_addres) -foreground "blue"
 
 button .open -text "Choose" -width 10 -command open_file
 button .send -text "Send" -width 10 -command send_file

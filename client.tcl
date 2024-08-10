@@ -6,9 +6,9 @@ set PORT 34560
 wm title . "Client"
 
 label .file -textvariable env(var_file)
-label .status -textvariable env(var_status)
+label .status -textvariable env(var_status) -foreground "grey"
 
-ttk::entry .ip -textvariable env(ip_addres)
+ttk::entry .ip -textvariable env(ip_addres) -foreground "blue" -justify center
 
 button .open -text "Choose" -width 10 -command open_file
 button .send -text "Send" -width 10 -command send_file
