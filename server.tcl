@@ -1,3 +1,9 @@
+#!/usr/bin/wish
+#
+# File exchange with client application.
+#
+# 2024, Stanislav Mikhel
+
 #settings
 set PORT 34560
 

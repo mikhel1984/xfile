@@ -1,3 +1,9 @@
+#!/usr/bin/wish
+#
+# File exchange with server application.
+#
+# 2024, Stanislav Mikhel
+
 # settings
 set IP "127.0.0.1"  ;# server
 set PORT 34560
