@@ -5,7 +5,6 @@ set PORT 34560
 # Window
 wm title . "Client"
 
-label .net -textvariable env(var_connection)
 label .file -textvariable env(var_file)
 label .status -textvariable env(var_status)
 
@@ -15,12 +14,10 @@ button .open -text "Choose" -width 10 -command open_file
 button .send -text "Send" -width 10 -command send_file
 
 grid .ip -columnspan 2 -sticky news
-grid .net -columnspan 2 -sticky news
 grid .file -columnspan 2 -sticky news
 grid .status -columnspan 2 -sticky news
 grid .open .send -sticky news
 
-set env(var_connection) "Disconnected"
 set env(var_file) " - "
 set env(var_status) "Waiting"
 set env(full_name) ""
@@ -87,7 +84,7 @@ proc try_connection {port} {
     after 1000 [list try_connection $port]
   } else {
     set env(is_connected) true
-    set env(var_connection) "Ready"
+    set env(var_status) "Ready"
     set env(var_socket) $channel
     fconfigure $channel -translation binary
     fileevent $channel readable file_receive

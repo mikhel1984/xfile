@@ -4,23 +4,23 @@ set PORT 34560
 # Window
 wm title . "Server"
 
-label .net -textvariable env(var_connection)
 label .file -textvariable env(var_file)
 label .status -textvariable env(var_status)
+label .addr -textvariable env(var_addres)
 
 button .open -text "Choose" -width 10 -command open_file
 button .send -text "Send" -width 10 -command send_file
 
-grid .net -columnspan 2 -sticky news
+grid .addr -columnspan 2 -sticky news
 grid .file -columnspan 2 -sticky news
 grid .status -columnspan 2 -sticky news
 grid .open .send -sticky news
 
-set env(var_connection) "Disconnected"
 set env(var_file) " - "
 set env(var_status) "Waiting"
 set env(full_name) ""
 set env(is_connected) false
+set env(var_addres) " - "
 
 
 # Choose file
@@ -80,8 +80,9 @@ proc new_connection {channel addr port} {
   global env
 
   set env(is_connected) true
-  set env(var_connection) "Ready"
+  set env(var_status) "Ready"
   set env(var_socket) $channel
+  set env(var_addres) $addr
   fconfigure $channel -translation binary
   fileevent $channel readable file_receive
 }
