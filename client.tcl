@@ -12,8 +12,9 @@ ttk::entry .ip -textvariable env(new_addres) -foreground "blue" -justify center
 
 button .open -text "Choose" -width 10 -command open_file
 button .send -text "Send" -width 10 -command send_file
+button .upd -text "Update" -width 10 -command update_addr
 
-grid .ip -columnspan 2 -sticky news
+grid .ip .upd -sticky news
 grid .file -columnspan 2 -sticky news
 grid .status -columnspan 2 -sticky news
 grid .open .send -sticky news
@@ -78,13 +79,18 @@ proc file_receive {} {
   }   
 }
 
-proc try_connection {port} {
+# Use new address
+proc update_addr {} {
   global env
 
-  # update if need
   if { [llength [split $env(new_addres) .]] == 4 } {
     set env(ip_addres) $env(new_addres)
   }
+}
+
+# Check if the client can be connected
+proc try_connection {port} {
+  global env
 
   # connect
   if { [catch {set channel [socket $env(ip_addres) $port]}] } {
